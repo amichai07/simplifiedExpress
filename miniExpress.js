@@ -19,11 +19,11 @@ function team(resource,func,method){
 }
 
 isfunction=function(type,req){
-    if(type.indexOf('/')==-1)
+    if(type.toString().indexOf('/')==-1)
         return (req.contentType.substring(req.contentType.indexOf('/')+1,req.contentType.length)==type);
     else{
-        sort=type.substring(0,type.indexOf('.'))
-        specType=type.substring(type.indexOf('.')+1,type.length);
+        var sort=type.substring(0,type.indexOf('.'))
+        var specType=type.substring(type.indexOf('.')+1,type.length);
 
         if (sort==req.contentType.substring(0,req.contentType.indexOf('/'))){
             if (specType=='*')
@@ -52,6 +52,7 @@ var miniExpress= function(){
 
     res.status = function(code) {
         this.statusCode=code;
+        this.response.statusCode=code;
     }
 
 
@@ -101,7 +102,7 @@ var miniExpress= function(){
             if (typeof status === 'number') {
                 res.set('Content-Length', statusType2[status].length);
                 res.set('Content-Type', 'text/plain');
-                res.response.write(statusType2[status])
+                res.response.write(statusType2[status]);
             }
             else {
                 body = status;
@@ -118,10 +119,15 @@ var miniExpress= function(){
             if (!res.get('Content-Type')) {
                 res.set('Content-Type', 'text/plain');
             }
+            res.status(status);
             res.body = body;
             res.response.write(body);
         }
     }
+
+
+
+
 
     app=function (request,response){
         res.response=response;
@@ -139,7 +145,7 @@ var miniExpress= function(){
             }
         );
 
-        req.is = isfunction;
+
         var found=false;
         var nextIterator=0;
         next();
@@ -147,8 +153,12 @@ var miniExpress= function(){
             if(nextIterator<queue.length){
                 var item=queue[nextIterator];
 
-                req.contentType=dataType[req.request.url.substring(req.request.url.lastIndexOf(".")+1
-                    ,req.request.url.length)];
+//                req.contentType=dataType[req.request.url.substring(req.request.url.lastIndexOf(".")+1
+//                    ,req.request.url.length)];
+                req.contentType=req.request.headers["Content-Type"];
+                req.is =function(type){
+                    isfunction(type,req);
+                }
                 req.params.regex=new RegExp(item.resource);
                 parameters(item.resource,req);
                 req.request.params=req.params;
@@ -212,7 +222,6 @@ var miniExpress= function(){
         {
             func=arguments[0];
             resource="/";
-//            console.log("fuckingaaaa");
             queue.push(team(resource,func));
         }
     }

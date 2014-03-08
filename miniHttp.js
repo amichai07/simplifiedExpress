@@ -22,10 +22,12 @@ function ServerResponse(socket){
      * @param headers
      */
 ServerResponse.prototype.writeHead=function(statusCode,codeExp,headers){
-    if(codeExp == undefined) codeExp='';
-        this.socket.write("HTTP/1.1"+" "+statusCode/*+codeExp*/);
-    for (var header in headers)
+    if(codeExp == undefined)
+        codeExp='';
+    this.socket.write("HTTP/1.1"+" "+statusCode/*+codeExp*/);
+    for (var header in headers){
         this.socket.write("\r\n"+header+": "+headers[header]);
+    }
     this.socket.write("\r\n\r\n");
     this.headerDone=true;
     }
@@ -38,8 +40,6 @@ ServerResponse.prototype.setHeader=function(name, value){
 ServerResponse.prototype.getHeader=function(name){
     name=name.toLocaleLowerCase();
     name=capitaliseFirstLetter(name);
-
-
     return this.headers[name];
 }
 
@@ -87,10 +87,9 @@ function capitaliseFirstLetter(string)
         return  match[1].charAt(0).toUpperCase()+match[1].slice(1)+"-"+match[2].charAt(0).toUpperCase()+match[2].slice(1);
     }
     else{
-    return string.charAt(0).toUpperCase() + string.slice(1);
+       return string.charAt(0).toUpperCase() + string.slice(1);
     }
 }
-
 
 /**
  *
