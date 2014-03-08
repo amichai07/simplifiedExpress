@@ -1,0 +1,15 @@
+*the bigest change we did was to change our http to case insensitive - we added a very short method captilizefirst that deals with all that.
+
+it solved almost everything.
+
+few minor changes apart from that 
+
+*we set status to the defualt send(that sends a string);
+*in the cookie parser instead of filling the cookies into [] we put {}
+*the req.contentType is from headers instead of using the url that works just for static.
+
+
+
+
+we spent more than 50 hours on this ex4 please considre it.
+ all the best..  

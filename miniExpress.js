@@ -153,8 +153,6 @@ var miniExpress= function(){
             if(nextIterator<queue.length){
                 var item=queue[nextIterator];
 
-//                req.contentType=dataType[req.request.url.substring(req.request.url.lastIndexOf(".")+1
-//                    ,req.request.url.length)];
                 req.contentType=req.request.headers["Content-Type"];
                 req.is =function(type){
                     isfunction(type,req);
