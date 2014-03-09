@@ -19,12 +19,13 @@ function team(resource,func,method){
 }
 
 isfunction=function(type,req){
-    if(type.toString().indexOf('/')==-1)
+    if(type.indexOf('/')==-1){
         return (req.contentType.substring(req.contentType.indexOf('/')+1,req.contentType.length)==type);
+    }
     else{
-        var sort=type.substring(0,type.indexOf('.'))
-        var specType=type.substring(type.indexOf('.')+1,type.length);
 
+        var sort=type.substring(0,type.indexOf('/'))
+        var specType=type.substring(type.indexOf('/')+1,type.length);
         if (sort==req.contentType.substring(0,req.contentType.indexOf('/'))){
             if (specType=='*')
                 return true;
@@ -78,7 +79,9 @@ var miniExpress= function(){
             }
 
             else {
+
                 res.response.statusCode='200';
+//                res.send('200');
                 body=status;
             }
         }
@@ -98,10 +101,12 @@ var miniExpress= function(){
         res.response.write(JSON.stringify(body));
     }
     res.send = function(status, body) {
+
         if (!body) {
             if (typeof status === 'number') {
                 res.set('Content-Length', statusType2[status].length);
                 res.set('Content-Type', 'text/plain');
+                res.response.statusCode=status;
                 res.response.write(statusType2[status]);
             }
             else {
@@ -122,7 +127,9 @@ var miniExpress= function(){
             res.status(status);
             res.body = body;
             res.response.write(body);
+            res.response.headerDone=false;
         }
+//        res.response.socket.end();
     }
 
 
@@ -155,7 +162,7 @@ var miniExpress= function(){
 
                 req.contentType=req.request.headers["Content-Type"];
                 req.is =function(type){
-                    isfunction(type,req);
+                    return isfunction(type,req);
                 }
                 req.params.regex=new RegExp(item.resource);
                 parameters(item.resource,req);
@@ -361,12 +368,11 @@ miniExpress.cookieParser= function(/*value,request*/){
         for (var i in cookies) {
             cookie = {};
             split1 = cookies[i].split('=');
-            res.send(500);
             req.cookies[split1[0]]=split1[1];
 
 
         }
-        console.log(req.cookies)
+
         next();
     }
 }

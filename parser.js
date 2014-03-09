@@ -73,8 +73,9 @@ function insertLine(req,lines){
 function parseRequest(line,req){
     var version=/\bHTTP\/(1.[0|1])\b/;
     curr=line.split(space);
-    if (curr.length!=3)
+    if (curr.length!=3){
         throw 'NONFREAKINGPARSABLE';
+    }
     req.url=curr[1];
     var match =version.exec(curr[2]);
     if(match!=null){
@@ -85,6 +86,7 @@ function parseRequest(line,req){
         req.keepAlive=true;
     }
     else if(!(req.httpVersion==='1.0')){
+        console.log("shitA");
         throw 'NONFREAKINGPARSABLE';
     }
 }

@@ -83,17 +83,17 @@ function testUrlencoded2(){
     app.use(express.bodyParser());
     app.post('/test', function(req,res){res.json(req.body);});
     //var server = http.createServer(app);
-    app.listen(8000, function () {
+    app.listen(8001, function () {
         console.log("listening");
     });
     var options = 	{
-        port:8000,
+        port:8001,
         path:'/test',
         method:'POST',
         headers:{
             'Content-type':'application/x-www-form-urlencoded',
             'Content-Length':body.length
-        }
+        },
     };
 
     var req=clientHttp.request(options,	function (res) {
@@ -115,17 +115,17 @@ function testJson2(){
     app.use(express.bodyParser());
     app.post('/test/body', function(req,res){res.json(req.body);});
     //var server = http.createServer(app);
-    app.listen(8000, function () {
+    app.listen(8001, function () {
         console.log("listening");
     });
     var options = 	{
-        port:8000,
+        port:8001,
         path:'/test/body',
         method:'POST',
         headers:{
             'Content-type':'application/json',
             'Content-Length':body.length
-        }
+        },
     };
 
     var req=clientHttp.request(options,	function (res) {
@@ -146,11 +146,11 @@ function testCookies(){
     app.use(express.cookieParser());
     app.post('/test/cookies', function(req,res){res.json(req.cookies);});
     //var server = http.createServer(app);
-    app.listen(8000, function () {
+    app.listen(8001, function () {
         console.log("listening");
     });
     var options = 	{
-        port:8000,
+        port:8001,
         path:'/test/cookies',
         method:'POST',
         headers:{
@@ -181,11 +181,11 @@ function test2ports(){
         next();
     });
 
-    http.createServer(app).listen(8000);
+    http.createServer(app).listen(8001);
     app.listen(9000);
 
     var req1=clientHttp.request({
-            port:8000,
+            port:8001,
             path:'/test/get',
             method:'GET'},
         function (res) {
@@ -243,12 +243,12 @@ function testFunctionality(){
     });
 
     //var server = http.createServer(app);
-    app.listen(8000, function () {
+    app.listen(8001, function () {
         console.log("listening");
     });
 
     var options = {
-        port:8000,
+        port:8001,
         path:'/a/param1/b/path?q1=query1&q2=query2',
         Host: 'localhost',
         version: '1.1',
@@ -263,7 +263,7 @@ function testFunctionality(){
     var req=clientHttp.request(options, function (res) {
         res.setEncoding('utf8');
         console.log('got result');
-        //server.close();
+        //server.close();	
 
     });
     req.write(text);
@@ -280,12 +280,12 @@ function testGet(){
     });
 
     //var server = http.createServer(app);
-    app.listen(8000, function () {
+    app.listen(8001, function () {
         console.log("listening");
     });
 
     var options = 	{
-        port:8000,
+        port:8001,
         path:'/test/get',
         method:'GET',
         headers:{'Content-Length':0}
@@ -306,12 +306,12 @@ function testPost(){
     });
 
     //var server = http.createServer(app);
-    app.listen(8000, function () {
+    app.listen(8001, function () {
         console.log("listening");
     });
 
     var options = 	{
-        port:8000,
+        port:8001,
         path:'/test/post',
         method:'POST',
         headers:{'Content-Length':0}
@@ -334,12 +334,12 @@ function testPut(){
     });
 
     //var server=http.createServer(app);
-    app.listen(8000, function () {
+    app.listen(8001, function () {
         console.log("listening!");
     });
 
     var options = 	{
-        port:8000,
+        port:8001,
         path:'/test/put',
         method:'PUT',
         headers:{'Content-Length':0}
@@ -361,12 +361,12 @@ function testDelete(){
     });
 
     //var server=http.createServer(app);
-    app.listen(8000, function () {
+    app.listen(8001, function () {
         console.log("listening!");
     });
 
     var options = 	{
-        port:8000,
+        port:8001,
         path:'/test/delete',
         method:'DELETE',
         headers:{'Content-Length':0}
@@ -389,12 +389,12 @@ function testPrefix(){
     });
 
     var server = http.createServer(app);
-    server.listen(8000, function () {
+    server.listen(8001, function () {
         console.log("listening!");
     });
 
     var options = 	{
-        port:8000,
+        port:8001,
         path:'/test/get/sssssdd',
         method:'GET'
     };
@@ -429,21 +429,21 @@ function testOrder(){
         console.log('use4');
         res.send('something');
     });
-
-    //var server=http.createServer(app);
-    app.listen(8000, function () {
+//
+//    //var server=http.createServer(app);
+    app.listen(8001, function () {
         console.log("listening!");
     });
 
     var options = 	{
-        port:8000,
+        port:8001,
         path:'/test/order',
         method:'GET'
     };
 
     var req=clientHttp.request(options,	function (res) {
         console.log('got result');
-        //server.close();
+//        server.close();
     });
     console.log('should print get1, use2, get3, use4');
     req.end();
@@ -458,12 +458,12 @@ function testDifferentUse(){
     });
 
     //var server = http.createServer(app);
-    app.listen(8000, function () {
+    app.listen(8001, function () {
         console.log("listening");
     });
 
     var options = 	{
-        port:8000,
+        port:8001,
         path:'/test/post',
         method:'POST',
         headers:{'Content-Length':0}
@@ -475,6 +475,4 @@ function testDifferentUse(){
     });
     req.write("");
     req.end();
-}/**
- * Created by root on 3/5/14.
- */
+}
